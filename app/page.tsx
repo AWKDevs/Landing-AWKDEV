@@ -1,101 +1,182 @@
+"use client";
+import Navbar from "../app/components/Nav";
+import Meteoros from "../app/components/contenedorMeteoro";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import Meteor from "../app/components/Meteor";
+import Lights from "../app/components/Lights";
+import ShootingStars from "../app/components/ShootingStars";
+import Service from "../app/components/Services";
+import ContactForm from "../app/components/ContactForm";
+import dynamic from "next/dynamic";
+import AboutUs from "../app/components/AboutUs";
+import { motion } from "framer-motion";
+
+const Spacecraft = dynamic(() => import("../app/components/Spacecraft"), {
+  ssr: false,
+});
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [textIndex, setTextIndex] = useState(0);
+  const [isClient, setIsClient] = useState(false);
+  const [isInService, setIsInService] = useState(false);
+  const [isInAboutUs, setIsInAboutUs] = useState(false);
+  const [isInContact, setIsInContact] = useState(false);
+  const message = "AWK despega tu mente";
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const handleScroll = () => {
+      setScrollPosition(window.scrollY);
+      const serviceSection = document.getElementById("service");
+      const aboutUsSection = document.getElementById("aboutus");
+      const contactFormSection = document.getElementById("contactform");
+
+      if (
+        serviceSection &&
+        serviceSection.getBoundingClientRect().top < window.innerHeight
+      ) {
+        setIsInService(true);
+      }
+      if (
+        aboutUsSection &&
+        aboutUsSection.getBoundingClientRect().top < window.innerHeight
+      ) {
+        setIsInAboutUs(true);
+      }
+      if (
+        contactFormSection &&
+        contactFormSection.getBoundingClientRect().top < window.innerHeight
+      ) {
+        setIsInContact(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [scrollPosition]);
+
+  useEffect(() => {
+    if (!isClient) return;
+
+    if (textIndex < message.length) {
+      const timeout = setTimeout(() => {
+        setTextIndex((prev) => prev + 1);
+      }, 100);
+      return () => clearTimeout(timeout);
+    }
+  }, [textIndex, isClient]);
+
+  const meteorsData = [
+    { top: 10, left: 6, width: 750, height: 450 },
+    { top: 4, left: 55, width: 650, height: 250 },
+  ];
+
+  return (
+    <main className="h-[200vh] tex-[text-[#ebf6e7] w-screen hide-scrollbar">
+      <Navbar />
+      <div className="min-w-full pt-20 min-h-[200vh] bg-black relative">
+        <Lights active={true} />
+        <Meteoros />
+        <ShootingStars />
+        <div className="absolute top-0 left-0 w-full h-screen">
+          <div className="flex pt-20 opacity-10">
+            <Image src="/meteoro1.png" alt="meteoro" width={900} height={500} />
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              src="/meteoro1.png"
+              alt="meteoro"
+              width={1050}
+              height={600}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <Image src="/meteoro3.png" alt="meteoro" width={650} height={600} />
+          </div>
+          <div className="text-center bottom-60 absolute left-1/2 transform -translate-x-1/2 z-[8888]">
+            <h1 className="text-6xl h-36 font-sans font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#ffffff] to-[#f3f9f5] whitespace-nowrap overflow-hidden">
+              <span>{message.substring(0, textIndex)}</span>
+              <span className="border-r-8 pr-2 font-extrabold border-white/90 rounded-lg animate-blink"></span>
+            </h1>
+            <button
+              className="px-6 py-5 animate-bounce bg-green-800/5 hover:bg-green-700/15 hover:translate-y-1 text-white rounded-full shadow-md shadow-green-900 hover:shadow-[#62e394] transition duration-300"
+              onClick={() => {
+                const section = document.getElementById("contactform");
+                if (section) {
+                  section.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
+            >
+              🚀 ¡Despegue!
+            </button>
+
+            <style jsx>{`
+              .animate-blink {
+                animation: blink 1s step-end infinite;
+              }
+              @keyframes blink {
+                50% {
+                  opacity: 0;
+                }
+              }
+            `}</style>
+          </div>
+
+          {meteorsData.map((meteor, index) => (
+            <Meteor
+              key={index}
+              top={meteor.top}
+              left={meteor.left}
+              width={meteor.width}
+              height={meteor.height}
+              scrollPosition={scrollPosition}
+            />
+          ))}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        <div className="relative min-w-full align-bottom">
+          <div className="flex justify-center">
+            <div
+              className="relative group justify-center align-bottom items-center"
+              style={{ transform: `translateY(-${scrollPosition}px)` }}
+            >
+              {isClient && <Spacecraft />}
+            </div>
+          </div>
+          <motion.div
+            id="service"
+            className="px-16"
+            initial={{ x: "-100vw" }}
+            animate={isInService ? { x: 0 } : { x: "-100vw" }}
+            transition={{ duration: 1, ease: "easeOut" }}
+          >
+            <Service />
+          </motion.div>
+          <motion.div
+            id="aboutus"
+            className="pt-10 px-16"
+            initial={{ x: "100vw" }}
+            animate={isInAboutUs ? { x: 0 } : { x: "100vw" }}
+            transition={{ duration: 1, ease: "easeOut" }}
+          >
+            <AboutUs />
+          </motion.div>
+          <motion.div
+            id="contactform"
+            className="pt-10 px-16"
+            initial={{ x: "-100vw" }}
+            animate={isInContact ? { x: 0 } : { x: "-100vw" }}
+            transition={{ duration: 1, ease: "easeOut" }}
+          >
+            <ContactForm />
+          </motion.div>
+          <div className="flex py-8 justify-center items-center text-center text-sm font-extralight hover:text-[#62e394]">
+            Aviso de privacidad
+          </div>
+        </div>
+      </div>
+    </main>
   );
 }
