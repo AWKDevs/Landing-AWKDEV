@@ -1,7 +1,5 @@
 "use client";
 
-import Image from "next/image";
-
 export default function Services() {
   return (
     <section className="text-[#ebf6e7] font-sans font-semibold  px-6">

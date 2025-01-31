@@ -1,10 +1,26 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 
-export default function Lights({ active }) {
-  const [stars, setStars] = useState([]);
+interface Star {
+  top: number;
+  left: number;
+  size: number;
+  delay: number;
+  animation: "pulse" | "parpadeo";
+}
+
+interface LightsProps {
+  active: boolean;
+}
+
+export default function Lights({ active }: LightsProps) {
+  const [stars, setStars] = useState<Star[]>([]);
 
   useEffect(() => {
-    const generateStars = () => {
+    if (!active) return;
+
+    const generateStars = (): Star[] => {
       return Array.from({ length: 50 }).map(() => ({
         top: Math.random() * 100,
         left: Math.random() * 100,
@@ -15,10 +31,10 @@ export default function Lights({ active }) {
     };
 
     setStars(generateStars());
-  }, []);
+  }, [active]);
 
   return (
-    <div className="fixed inset-0 z-0">
+    <div className="fixed inset-0 z-10 pointer-events-none">
       <div className="w-full h-full">
         <div className="estrellas">
           {stars.map((star, index) => (

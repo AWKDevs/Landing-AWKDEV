@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import Image from "next/image";
-import MatrixRain from "../components/MatrixRain";
+import MatrixRain from "./MatrixRain"
 
 export default function ContactForm() {
   const {
