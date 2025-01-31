@@ -20,7 +20,7 @@ export default function MainSection() {
       </div>
 
       {/* Contenedor para los meteoritos */}
-      <div className="absolute top-40 left-0 w-full h-[30vh] flex justify-around items-start space-x-4 overflow-visible z-0">
+      <div className="absolute z-0 top-36 lg:top-60 left-0 w-full h-[30vh] flex justify-around items-start space-x-4 overflow-visible">
         <Image
           src="/meteoro1.png"
           alt="Meteoritos"
