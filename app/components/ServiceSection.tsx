@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import Services from "./All Page Components/Services";
+import Services from "./All Page Components/ServicesComponent";
 
 export default function ServiceSection() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });

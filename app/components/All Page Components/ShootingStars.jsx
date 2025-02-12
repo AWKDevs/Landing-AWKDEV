@@ -20,7 +20,7 @@ export default function ShootingStars() {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-10 pointer-events-none">
+    <div className="fixed inset-0 -z-10 pointer-events-none">
       <div className="w-full h-full">
         {shootingStars.map((star) => (
           <div

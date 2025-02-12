@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Service from "./All Page Components/Services";
+import Service from "./All Page Components/ServicesComponent";
 import AboutUs from "./All Page Components/AboutUs";
 import ContactForm from "./All Page Components/ContactForm";
 import { useEffect, useState } from "react";

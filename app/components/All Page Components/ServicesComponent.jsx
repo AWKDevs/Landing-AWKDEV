@@ -1,8 +1,8 @@
 "use client";
 
-export default function Services() {
+export default function ServicesComponent() {
   return (
-    <section className="text-[#ebf6e7] font-sans font-semibold  px-6">
+    <section className="text-[#ebf6e7] font-sans font-semibold px-6">
       <h2 className="text-4xl  font-bold ">
         Transformamos ideas en soluciones tecnológicas innovadoras que
         <span className="bg-clip-text text-transparent  bg-gradient-to-r from-[#62e394] to-[#0e6b32] pl-2 relative underline">
@@ -24,7 +24,7 @@ export default function Services() {
         {services.map((service, index) => (
           <div
             key={index}
-            className="bg-[#070707] hover:bg-[#0e6b32]/15 p-6 rounded-3xl hover:translate-y-1 translate-x-1 flex items-center space-x-4"
+            className="bg-[#070707] bg-transparent hover:bg-[#0e6b32]/15 p-6 rounded-3xl hover:translate-y-1 translate-x-1 flex items-center space-x-4"
           >
             <div className=" text-4xl">{service.icon}</div>
             <div>
